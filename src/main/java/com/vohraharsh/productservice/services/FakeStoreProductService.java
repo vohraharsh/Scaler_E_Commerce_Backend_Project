@@ -1,6 +1,7 @@
 package com.vohraharsh.productservice.services;
 
 import com.vohraharsh.productservice.dtos.FakeStoreProductDto;
+import com.vohraharsh.productservice.exceptions.ProductNotFoundException;
 import com.vohraharsh.productservice.models.Category;
 import com.vohraharsh.productservice.models.Product;
 import org.springframework.stereotype.Service;
@@ -44,18 +45,25 @@ public class FakeStoreProductService implements ProductService {
     }
 
     @Override
-    public Product getProductById(@PathVariable("id") Long id) {
+    public Product getProductById(@PathVariable("id") Long id) throws ProductNotFoundException {
 
         //Make a call to FakeStore and get the product with the given ID.
+        //throw new RuntimeException("Not implemented yet");
 
         FakeStoreProductDto fakeStoreProductDto = restTemplate.getForObject
                 ("https://fakestoreapi.com/products/" + id, FakeStoreProductDto.class);
 
         //Convert FakeStoreProductDto Object into Product Object.
 
+        if(fakeStoreProductDto == null){
+            throw new ProductNotFoundException("Product id: " + id + " Does not exist.");
+        }
+
         return convertFakeStoreProductDtoToProduct(fakeStoreProductDto);
 
     }
+
+
 
     @Override
     public List<Product> getAllProducts() {

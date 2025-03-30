@@ -1,7 +1,10 @@
 package com.vohraharsh.productservice.controllers;
 
+import com.vohraharsh.productservice.exceptions.ProductNotFoundException;
 import com.vohraharsh.productservice.models.Product;
 import com.vohraharsh.productservice.services.ProductService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -20,8 +23,26 @@ public class ProductController {
     }
 
     @GetMapping("/{id}")  //Used to retrieve all data.
-    public Product getProductById(@PathVariable("id") Long id) {
+    public Product getProductById(@PathVariable("id") Long id) throws ProductNotFoundException {
+
+        /*
+        ResponseEntity<Product> responseEntity = null;
+
+        try {
+            Product product = productService.getProductById(id);
+            responseEntity = new ResponseEntity<>(product, HttpStatus.OK);
+        } catch (ProductNotFoundException e){
+            System.out.println(e.getMessage());
+            responseEntity = new ResponseEntity<>(null, HttpStatus.BAD_GATEWAY);
+        }
+
+         */
+
         return productService.getProductById(id);
+
+        //Product product = productService.getProductById(id);
+        //return new ResponseEntity<>(product, HttpStatus.NOT_FOUND);
+
     }
 
     @GetMapping()
