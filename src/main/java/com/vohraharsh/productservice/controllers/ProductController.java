@@ -3,6 +3,7 @@ package com.vohraharsh.productservice.controllers;
 import com.vohraharsh.productservice.exceptions.ProductNotFoundException;
 import com.vohraharsh.productservice.models.Product;
 import com.vohraharsh.productservice.services.ProductService;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,7 +19,7 @@ public class ProductController {
 
 
     //This is dependency injection via constructor
-    public ProductController(ProductService productService) {
+    public ProductController(@Qualifier("FakeStoreProductServiceBean") ProductService productService) {
         this.productService = productService;
     }
 
